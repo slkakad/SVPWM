@@ -109,11 +109,9 @@ int main(void)
 			}
 			
 			//DAC->DHR12R1= (uint16_t)(spc_angle*180/PI)*4095/360;
-      //DAC->DHR12R2 = (uint16_t)(sector)*4095/6;
-			
-				
+      			//DAC->DHR12R2 = (uint16_t)(sector)*4095/6;	
 			//DAC->DHR12R1= (uint16_t)T1;
-				//DAC->DHR12R2= (uint16_t)T2;
+			//DAC->DHR12R2= (uint16_t)T2;
 		}
 	
 }
@@ -121,11 +119,12 @@ void GPIO_config()
 {
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8|GPIO_Pin_9|GPIO_Pin_10|GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_13 ;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP ;
-  GPIO_Init(GPIOE, &GPIO_InitStructure); 
+  	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+ 	 GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+  	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+ 	 GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP ;
+ 	 GPIO_Init(GPIOE, &GPIO_InitStructure); 
+
 	GPIO_PinAFConfig(GPIOE, GPIO_PinSource8, GPIO_AF_TIM1);
 	GPIO_PinAFConfig(GPIOE, GPIO_PinSource9, GPIO_AF_TIM1);
 	GPIO_PinAFConfig(GPIOE, GPIO_PinSource10, GPIO_AF_TIM1);
@@ -137,57 +136,57 @@ void TIM_config()
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
 	TIM_TimeBaseStructure.TIM_Period = (uint16_t)ARR_val-1;
-  TIM_TimeBaseStructure.TIM_Prescaler = 0;
-  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_CenterAligned1;
-  TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+  	TIM_TimeBaseStructure.TIM_Prescaler = 0;
+ 	 TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_CenterAligned1;
+  	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
 	TIM_Cmd(TIM1, ENABLE);
 	
 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 	 TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
 	TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Enable;
-  TIM_OCInitStructure.TIM_Pulse = T1;
-  TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 	 TIM_OCInitStructure.TIM_Pulse = T1;
+  	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
 	TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCNPolarity_High;
-  TIM_OC1Init(TIM1, &TIM_OCInitStructure);
+  	TIM_OC1Init(TIM1, &TIM_OCInitStructure);
 	TIM_OCInitStructure.TIM_Pulse = T2;
 	TIM_OC2Init(TIM1, &TIM_OCInitStructure);
 	TIM_OCInitStructure.TIM_Pulse = T0;
 	TIM_OC3Init(TIM1, &TIM_OCInitStructure);
 	TIM_CtrlPWMOutputs(TIM1, ENABLE);
-TIM1->BDTR  = 0xFF99;
+	TIM1->BDTR  = 0xFF99;
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
 	TIM_TimeBaseStructure.TIM_Period =4665;
-  TIM_TimeBaseStructure.TIM_Prescaler = 0;
-  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+  	TIM_TimeBaseStructure.TIM_Prescaler = 0;
+  	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
 	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
 	TIM_Cmd(TIM3, ENABLE);
 	
 	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+ 	 NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+ 	 NVIC_Init(&NVIC_InitStructure);
 
 }
 void DAC_config()
 {
-	  RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
-		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
-		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-		GPIO_Init(GPIOA, &GPIO_InitStructure);
+	 RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
+	 RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
 		
-		DAC_InitStructure.DAC_Trigger = DAC_Trigger_None;
-		DAC_InitStructure.DAC_WaveGeneration = DAC_WaveGeneration_None;
-		DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
-		DAC_Init(DAC_Channel_1, &DAC_InitStructure);
-		DAC_Init(DAC_Channel_2, &DAC_InitStructure);
-		DAC_Cmd(DAC_Channel_1, ENABLE);
-		DAC_Cmd(DAC_Channel_2, ENABLE);
+	DAC_InitStructure.DAC_Trigger = DAC_Trigger_None;
+	DAC_InitStructure.DAC_WaveGeneration = DAC_WaveGeneration_None;
+	DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
+	DAC_Init(DAC_Channel_1, &DAC_InitStructure);
+	DAC_Init(DAC_Channel_2, &DAC_InitStructure);
+	DAC_Cmd(DAC_Channel_1, ENABLE);
+	DAC_Cmd(DAC_Channel_2, ENABLE);
 }
 void TIM3_IRQHandler(void)
 {
@@ -215,8 +214,8 @@ uint8_t sec_idn(float angle)
 void tim_cal(void)
 {
 	uint8_t ac_f =0;
-		 T1 = sqrt(3)*T_svm*spc_mag*sinf((sector*PI/3)-spc_angle);
-		 T2 = sqrt(3)*T_svm*spc_mag*sinf(spc_angle-(sector-1)*PI/3);
-		 T0 = T_svm -T1 -T2;
+	T1 = sqrt(3)*T_svm*spc_mag*sinf((sector*PI/3)-spc_angle);
+	T2 = sqrt(3)*T_svm*spc_mag*sinf(spc_angle-(sector-1)*PI/3);
+	T0 = T_svm -T1 -T2;
 }
 
